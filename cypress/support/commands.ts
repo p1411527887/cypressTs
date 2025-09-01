@@ -35,3 +35,21 @@
 //     }
 //   }
 // }
+
+import {BasePage} from "./POM/BasePage";
+
+const basePage = new BasePage()
+
+// Tạo custom command clearCache
+Cypress.Commands.add('clearCache', () => {
+    basePage.clearCache()
+})
+
+// Khai báo type cho TypeScript
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            clearCache(): Chainable<void>
+        }
+    }
+}

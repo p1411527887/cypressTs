@@ -7,6 +7,7 @@ describe('Login', () => {
     let loginPage: LoginPageObject;
     let specialsPage: SpecialsPageObject;
     beforeEach(() => {
+        cy.clearCache();
         homePage = new HomePageObject();
         loginPage = new LoginPageObject();
         specialsPage = new SpecialsPageObject();

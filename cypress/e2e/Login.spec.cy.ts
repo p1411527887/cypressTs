@@ -5,6 +5,7 @@ describe('Login', () => {
     let homePage: HomePageObject;
     let loginPage: LoginPageObject;
     beforeEach(() => {
+        cy.clearCache();
         homePage = new HomePageObject();
         loginPage = new LoginPageObject();
         homePage.navigateToHomePage();

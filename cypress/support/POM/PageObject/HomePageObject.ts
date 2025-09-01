@@ -22,19 +22,36 @@ export class HomePageObject extends BasePage {
         return this.verifyUrl(expectedUrl)
     }
 
-    public verifyNameOfAccount(text : string) {
-        this.verifyElementHaveContainsText(HomePageUI.NAME_OF_ACCOUNT, text)
+    public verifyNameOfAccount(text : string): HomePageObject {
+        return  this.verifyElementHaveContainsText(HomePageUI.NAME_OF_ACCOUNT, text)
             .verifyElementVisible(HomePageUI.NAME_OF_ACCOUNT)
 
     }
 
-    public verifyRegisterMessageSuccessfully(text : string) {
-        this.verifyElementHaveContainsText(HomePageUI.REGISTER_SUCCESSFULLY_MESSAGE, text)
+    public verifyRegisterMessageSuccessfully(text : string): HomePageObject {
+        return this.verifyElementHaveContainsText(HomePageUI.REGISTER_SUCCESSFULLY_MESSAGE, text)
             .verifyElementVisible(HomePageUI.REGISTER_SUCCESSFULLY_MESSAGE)
 
     }
 
-    clickToSpecialsButton() {
+    public clickToSpecialsButton(): HomePageObject {
+        return this.clickToElement(HomePageUI.SPECIALS_BUTTON);
+
+    }
+
+    public verifyTotalPriceInCart(): HomePageObject {
+        return this.verifyElementHaveContainsText(HomePageUI.TOTAL_PRICE_IN_CART,"20.27")
+            .verifyElementVisible(HomePageUI.TOTAL_PRICE_IN_CART);
+
+    }
+
+    public verifyTotalItemInCart(): HomePageObject {
+        return this.verifyTotalItem(HomePageUI.TOTAL_ITEM_IN_CART,3)
+            .verifyElementVisible(HomePageUI.TOTAL_ITEM_IN_CART);
+    }
+
+    public clickToCheckOutButton(): HomePageObject {
+        return this.clickToElement(HomePageUI.CHECK_OUT_BUTTON);
 
     }
 }

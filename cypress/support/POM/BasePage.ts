@@ -1,5 +1,5 @@
 // cypress/support/pages/BasePage.ts
-export abstract class BasePage {
+export  class BasePage {
 
     // Helper method to determine selector type and return appropriate Cypress chainable
     private getElement(selector: string): Cypress.Chainable<JQuery<HTMLElement>> {
@@ -281,6 +281,24 @@ export abstract class BasePage {
         } else {
             iframeBody.find(elementSelector).should(assertion as any);
         }
+        return this;
+    }
+
+    clearCache() {
+        cy.clearCookies()
+        cy.clearLocalStorage()
+        cy.window().then((win) => {
+            win.sessionStorage.clear()
+        })
+    }
+
+    protected hoverToElement(selector: string): this {
+        this.getElement(selector).trigger('mouseover');
+        return this;
+    }
+
+    protected verifyTotalItem (selector: string , number :number): this {
+        this.getElement(selector).should('have.length', number);
         return this;
     }
 }
