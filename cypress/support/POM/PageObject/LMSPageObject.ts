@@ -6,7 +6,7 @@ export class LMSPageObject extends BasePage {
 
 
     public verifyTotalItemIncart(): LMSPageObject {
-        return this.verifyTotalItem(LMSPageUI.TOTAL_ITEM_IN_CART,3)
+        return this.waitForLoadingDisappear().verifyTotalItem(LMSPageUI.TOTAL_ITEM_IN_CART,3)
             .verifyElementVisible(LMSPageUI.TOTAL_ITEM_IN_CART);
     }
 

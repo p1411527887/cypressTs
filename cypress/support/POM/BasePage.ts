@@ -92,17 +92,17 @@ export  class BasePage {
 
     // Wait methods
     protected waitForElement(selector: string, timeout: number = 10000): this {
-        this.getElement(selector).should('exist', { timeout });
+        this.getElement(selector).should('exist', {timeout});
         return this;
     }
 
     protected waitForElementToBeVisible(selector: string, timeout: number = 10000): this {
-        this.getElement(selector).should('be.visible', { timeout });
+        this.getElement(selector).should('be.visible', {timeout});
         return this;
     }
 
     protected waitForUrl(url: string, timeout: number = 10000): this {
-        cy.url({ timeout }).should('include', url);
+        cy.url({timeout}).should('include', url);
         return this;
     }
 
@@ -297,8 +297,19 @@ export  class BasePage {
         return this;
     }
 
-    protected verifyTotalItem (selector: string , number :number): this {
+    protected verifyTotalItem(selector: string, number: number): this {
         this.getElement(selector).should('have.length', number);
         return this;
     }
+
+    protected waitForLoadingDisappear(): this {
+        cy.get("div[class='dialog-body']", {timeout: 10000})
+            .should('not.be.visible');
+        return this;
+    }
+    protected forceClickToElement(selector: string): this {
+        this.getElement(selector).click({force: true});
+        return this;
+    }
+
 }

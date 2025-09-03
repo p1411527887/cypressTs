@@ -9,12 +9,12 @@ export class HomePageObject extends BasePage {
     }
 
     public clickToAcceptAllCookies() : HomePageObject {
-        return this.clickToElement(HomePageUI.ACCEPT_ALL_COOKIES);
+        return this.waitForLoadingDisappear().clickToElement(HomePageUI.ACCEPT_ALL_COOKIES);
 
     }
 
     public clickToLoginLink() : HomePageObject {
-        return this.clickToElement(HomePageUI.LOGIN_LINK);
+        return this.waitForLoadingDisappear().clickToElement(HomePageUI.LOGIN_LINK);
 
     }
 
@@ -23,7 +23,7 @@ export class HomePageObject extends BasePage {
     }
 
     public verifyNameOfAccount(text : string): HomePageObject {
-        return  this.verifyElementHaveContainsText(HomePageUI.NAME_OF_ACCOUNT, text)
+        return  this.waitForLoadingDisappear().verifyElementHaveContainsText(HomePageUI.NAME_OF_ACCOUNT, text)
             .verifyElementVisible(HomePageUI.NAME_OF_ACCOUNT)
 
     }
@@ -35,18 +35,18 @@ export class HomePageObject extends BasePage {
     }
 
     public clickToSpecialsButton(): HomePageObject {
-        return this.clickToElement(HomePageUI.SPECIALS_BUTTON);
+        return this.waitForLoadingDisappear().clickToElement(HomePageUI.SPECIALS_BUTTON);
 
     }
 
     public verifyTotalPriceInCart(): HomePageObject {
-        return this.verifyElementHaveContainsText(HomePageUI.TOTAL_PRICE_IN_CART,"20.27")
+        return this.waitForLoadingDisappear().verifyElementHaveContainsText(HomePageUI.TOTAL_PRICE_IN_CART,"20.27")
             .verifyElementVisible(HomePageUI.TOTAL_PRICE_IN_CART);
 
     }
 
     public verifyTotalItemInCart(): HomePageObject {
-        return this.verifyTotalItem(HomePageUI.TOTAL_ITEM_IN_CART,3)
+        return this.waitForLoadingDisappear().verifyTotalItem(HomePageUI.TOTAL_ITEM_IN_CART,3)
             .verifyElementVisible(HomePageUI.TOTAL_ITEM_IN_CART);
     }
 

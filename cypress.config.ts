@@ -5,7 +5,7 @@ export default defineConfig({
       defaultCommandTimeout : 15000,
 
       viewportHeight : 900,
-      viewportWidth : 1400,
+      viewportWidth : 1440,
 
       setupNodeEvents(on, config) {
           on('before:browser:launch', (browser, launchOptions) => {
