@@ -37,6 +37,8 @@
 // }
 
 import {BasePage} from "./POM/BasePage";
+import 'cypress-iframe';
+
 
 const basePage = new BasePage()
 
@@ -44,6 +46,17 @@ const basePage = new BasePage()
 Cypress.Commands.add('clearCache', () => {
     basePage.clearCache()
 })
+
+Cypress.Commands.add(
+    "getIframeBody",
+    (iframeSelector: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+        return cy
+            .get(iframeSelector, { timeout: 20000 })
+            .its("0.contentDocument.body").should("not.be.empty")
+            .then((body) => cy.wrap(body));
+    }
+);
+
 
 // Khai báo type cho TypeScript
 declare global {

@@ -1,4 +1,6 @@
 // cypress/support/pages/BasePage.ts
+import * as worker_threads from "node:worker_threads";
+
 export  class BasePage {
 
     // Helper method to determine selector type and return appropriate Cypress chainable
@@ -225,29 +227,55 @@ export  class BasePage {
 
     protected handleIframe(iframeSelector: string): Cypress.Chainable<any> {
         return this.getElement(iframeSelector)
-            .should('be.visible')
-            .then(($iframe) => {
-                // Wait for iframe to load
-                return new Cypress.Promise((resolve) => {
-                    const iframe = $iframe[0] as HTMLIFrameElement;
-
-                    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
-                        resolve($iframe);
-                    } else {
-                        iframe.onload = () => resolve($iframe);
-                    }
-                });
-            })
-            .its('0.contentDocument.body')
-            .should('exist')
+            .should("exist")
+            .its("0.contentDocument.body")
+            .should("not.be.empty")
             .then(cy.wrap);
     }
 
+
     // Click element bên trong iframe
-    protected clickElementInIframe(iframeSelector: string, elementSelector: string): this {
-        this.handleIframe(iframeSelector)
-            .find(elementSelector)
-            .click();
+    // protected clickElementInIframe(iframeSelector: string, elementSelector: string): this {
+    //     // Wait và retry mechanism
+    //     this.getElement(iframeSelector)
+    //         .should('be.visible')
+    //         .then(() => {
+    //             cy.wait(1000);
+    //
+    //             this.handleIframe(iframeSelector)
+    //                 .within(() => {
+    //                     this.getElement(elementSelector)
+    //                         .should('be.visible')
+    //                         .click();
+    //                 });
+    //         });
+    //
+    //     return this;
+    // }
+
+    protected clickElementInIframe(
+        iframeSelector: string,
+        elementSelector: string,
+        clickTimes: number = 1
+    ): this {
+        // Chờ iframe hiển thị
+        this.getElement(iframeSelector)
+            .should("be.visible")
+            .then(() => {
+                cy.wait(6000);
+
+                // Truy cập vào iframe
+                this.handleIframe(iframeSelector).within(() => {
+                    for (let i = 0; i < clickTimes; i++) {
+                        this.getElement(elementSelector)
+                            .should("be.visible")
+                            .click();
+
+                        cy.wait(500); // nghỉ ngắn giữa các lần click
+                    }
+                });
+            });
+
         return this;
     }
 
@@ -303,12 +331,25 @@ export  class BasePage {
     }
 
     protected waitForLoadingDisappear(): this {
-        cy.get("div[class='dialog-body']", {timeout: 10000})
-            .should('not.be.visible');
+        cy.get('body', { timeout: 20000 }).then($body => {
+            if ($body.find("div[class='dialog-body']").length > 0) {
+                cy.get("div[class='dialog-body']", { timeout: 20000 })
+                    .should('not.be.visible');
+            } else {
+                // Nếu không có thì bỏ qua, chạy tiếp
+                cy.log('No dialog-body found → continue test');
+            }
+        });
         return this;
     }
+
+
     protected forceClickToElement(selector: string): this {
         this.getElement(selector).click({force: true});
+        return this;
+    }
+    protected waitASecond () : this {
+        cy.wait(3000)
         return this;
     }
 

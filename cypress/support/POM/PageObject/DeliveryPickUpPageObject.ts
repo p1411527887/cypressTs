@@ -5,15 +5,14 @@ export class DeliveryPickUpPageObject extends BasePage {
 
 
     public clickToTomorrowTimeSlot(): DeliveryPickUpPageUI {
-        return this.waitForLoadingDisappear()
-            .verifyElementVisible(DeliveryPickUpPageUI.TOMORROW_TIME_SLOT)
-            .forceClickToElement(DeliveryPickUpPageUI.TOMORROW_TIME_SLOT);
-        //                                                     ^
-        //                                            Đúng - options ở tham số 2
+        this.waitForLoadingDisappear().waitASecond().clickToElement(DeliveryPickUpPageUI.TOMORROW_TIME_SLOT);
+        return this;
     }
 
     public clickToTimeSlot():DeliveryPickUpPageUI {
-        return this.verifyElementVisible(DeliveryPickUpPageUI.TIME_SLOT).clickToElement(DeliveryPickUpPageUI.TIME_SLOT);
+
+        this.clickToElement(DeliveryPickUpPageUI.TIME_SLOT);
+        return this;
 
     }
 
